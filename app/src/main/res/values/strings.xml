@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Testility JIRA</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="nav_issues">Issues</string>
+    <string name="nav_boards">Boards</string>
+    <string name="nav_profile">Account</string>
+</resources>
