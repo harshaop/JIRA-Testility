@@ -5,12 +5,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_above="@+id/nav_bottom"
+    android:layout_above="@+id/nav_bottom2"
     android:fitsSystemWindows="true"
     tools:context=".MainActivity">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/my_toolbar"
+        android:id="@+id/my_toolbar2"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
         android:layout_alignParentStart="true"
@@ -28,13 +28,13 @@
         android:id="@+id/main_frame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/nav_bottom"
-        android:layout_below="@+id/my_toolbar">
+        android:layout_above="@+id/nav_bottom2"
+        android:layout_below="@+id/my_toolbar2">
 
     </FrameLayout>
 
     <android.support.design.widget.BottomNavigationView
-        android:id="@+id/nav_bottom"
+        android:id="@+id/nav_bottom2"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_alignParentBottom="true"

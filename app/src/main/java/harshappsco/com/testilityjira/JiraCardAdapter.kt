@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.squareup.picasso.Picasso
-import harshappsco.com.testilityjira.R.id.imageView
 import kotlinx.android.synthetic.main.jira_card.view.*
 
 class JiraCardAdapter(val issueFeed :IssueFeed): RecyclerView.Adapter<JiraCardViewHolder>() {
@@ -35,7 +34,6 @@ class JiraCardAdapter(val issueFeed :IssueFeed): RecyclerView.Adapter<JiraCardVi
                 .error(R.drawable.abc_ic_star_black_16dp)
                 .into(imageViewPriority)
     }
-
 }
 class JiraCardViewHolder(val card: View): RecyclerView.ViewHolder(card)
 
