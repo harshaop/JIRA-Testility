@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.jira_card.view.*
 
-class JiraCardAdapter(val issueFeed :IssueFeed): RecyclerView.Adapter<JiraCardViewHolder>() {
+class JiraCardAdapter(val issuesFeed :IssuesFeed): RecyclerView.Adapter<JiraCardViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): JiraCardViewHolder{
         val view = LayoutInflater.from(parent.context).inflate(R.layout.jira_card, parent,false)
@@ -15,22 +15,25 @@ class JiraCardAdapter(val issueFeed :IssueFeed): RecyclerView.Adapter<JiraCardVi
     }
 
     override fun getItemCount(): Int {
-        return issueFeed.issues.size
+        return issuesFeed.issues.size
     }
 
     override fun onBindViewHolder(holder: JiraCardViewHolder, position: Int) {
-        val issue = issueFeed.issues.get(position)
+        val issue = issuesFeed.issues.get(position)
         holder.card.textView3.text = issue.key
         holder.card.textView4.text = issue.fields.summary
 
         val imageViewType = holder.card.imageView
         val imageViewPriority = holder.card.imageView2
+      //  val imageViewAssignee = holder.card.imageView3
         Picasso.get()
-                .load("https://harshaop.atlassian.net/secure/viewavatar?size=xsmall&avatarId=10315&avatarType=issuetype")
+                .load( issue.fields.issuetype.iconUrl.toString())
+                        //"https://harshaop.atlassian.net/secure/viewavatar?size=xsmall&avatarId=10315&avatarType=issuetype")
                 .error(R.drawable.abc_ic_star_black_16dp)
                 .into(imageViewType)
         Picasso.get()
-                .load("https://harshaop.atlassian.net/images/icons/priorities/medium.svg")
+                .load( issue.fields.priority.iconUrl.toString())
+                        //"https://harshaop.atlassian.net/images/icons/priorities/medium.svg")
                 .error(R.drawable.abc_ic_star_black_16dp)
                 .into(imageViewPriority)
     }

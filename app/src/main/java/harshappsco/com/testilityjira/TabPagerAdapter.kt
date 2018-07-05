@@ -11,6 +11,10 @@ class TabPagerAdapter(fm: FragmentManager?, val tabCount:Int) : FragmentPagerAda
             0 -> return FragmentTab1()
             1-> return FragmentTab2()
             2 -> return FragmentTab3()
+            3 -> return FragmentTab2()
+            4 -> return  FragmentTab3()
+            5 -> return  FragmentTab2()
+            6-> return  FragmentTab3()
             else -> return null
         }
     }
