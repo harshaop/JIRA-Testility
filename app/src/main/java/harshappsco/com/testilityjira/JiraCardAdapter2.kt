@@ -25,21 +25,21 @@ class JiraCardAdapter2(val issuesFeed :List<IssueDataList>): RecyclerView.Adapte
         val imageViewType = holder.card.imageView
         val imageViewPriority = holder.card.imageView2
         val imageViewAssignee = holder.card.imageView3
-       // val assigneeUrl = "https://jira.hm.com/secure/useravatar?avatarId=10373"
+        val assigneeUrl = issue?.assigneeUrl ?: "https://jira.hm.com/secure/useravatar?avatarId=10373"
 
 
         Picasso.get()
-                .load( "https://jira.hm.com/secure/useravatar?avatarId=10373")
+                .load( issue.typUrl)
                         //"https://harshaop.atlassian.net/secure/viewavatar?size=xsmall&avatarId=10315&avatarType=issuetype")
                 .error(R.drawable.abc_ic_star_black_16dp)
                 .into(imageViewType)
         Picasso.get()
-                .load( "https://jira.hm.com/secure/useravatar?avatarId=10373")
+                .load( issue.prioUrl)
                         //"https://harshaop.atlassian.net/images/icons/priorities/medium.svg")
                 .error(R.drawable.abc_ic_star_black_16dp)
                 .into(imageViewPriority)
         Picasso.get()
-                .load("https://jira.hm.com/secure/useravatar?avatarId=10373")
+                .load(assigneeUrl)
                 //"https://harshaop.atlassian.net/images/icons/priorities/medium.svg")
                 .error(R.drawable.ic_twotone_person_24px)
                 .into(imageViewAssignee)

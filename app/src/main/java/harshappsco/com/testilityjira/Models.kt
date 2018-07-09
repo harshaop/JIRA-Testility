@@ -19,7 +19,8 @@ data class IssueType(val iconUrl:String)
 //Models for BoardConfig
 data class BoardConfig(val columnConfig: ColumnConfig)
 data class ColumnConfig(val columns: List<Columns>)
-data class Columns(val name: String)
+data class Columns(val name: String, val statuses: List<Statuses>)
+data class Statuses(val id: String)
 
 //Models for Db SQL Read
 data class IssueDataList(val issueID: String, val summary: String , val tabCol : String, val typUrl: String , val prioUrl: String, val assigneeUrl :String?)
