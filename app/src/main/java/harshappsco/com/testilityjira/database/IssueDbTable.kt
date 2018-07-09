@@ -7,21 +7,23 @@ import android.database.sqlite.SQLiteDatabase
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Log
-import harshappsco.com.testilityjira.Fields
-import harshappsco.com.testilityjira.Issue
-import harshappsco.com.testilityjira.IssueDataList
+import harshappsco.com.testilityjira.*
 import java.io.ByteArrayOutputStream
 
 class IssueDbTable(context: Context) {
     private val TAG = IssueDbTable::class.java.simpleName
 
     private val dbHelper = IssueEntryDb(context)
-    fun storeData(issue: Issue, fields: Fields): Long {
+    fun storeData(issue: Issue, fields: Fields, statusTab: StatCategory, issueType: IssueType, prio: Priority, assigneeUrl: AvatarsUrls?): Long {
         val db = dbHelper.writableDatabase
         val values = ContentValues()
         values.put(IssueEntry.ISSUE_ID_COL, issue.key)
         values.put(IssueEntry.ISSUE_SUMMARY_COL, fields.summary)
-    //    values.put(IssueEntry.ISSUE_TYP_IMG_COL,)
+        values.put(IssueEntry.ISSUE_TAB_LANE_COL, statusTab.name)
+        values.put(IssueEntry.ISSUE_TYP_IMG_URL_COL, issueType.iconUrl )
+        values.put(IssueEntry.ISSUE_PIRO_IMG_URL_COL, prio.iconUrl )
+        values.put(IssueEntry.ISSUE_ASSIGNEE_IMG_URL_COL, assigneeUrl?.`32x32` )
+    //  values.put(IssueEntry.ISSUE_TYP_IMG_COL,)
         val id = db.transaction {
             insert(IssueEntry.TABLE_NAME, null, values)
         }
@@ -29,24 +31,41 @@ class IssueDbTable(context: Context) {
         return id
     }
 
-    fun readData(): List<IssueDataList> {
+    fun readData(selection: String? = null, selectionArgs: Array<String>? = null): List<IssueDataList> {
         val issues = mutableListOf<IssueDataList>()
-        val colums = arrayOf(IssueEntry.TABLE_ID, IssueEntry.ISSUE_ID_COL, IssueEntry.ISSUE_SUMMARY_COL, IssueEntry.ISSUE_TYP_IMG_COL, IssueEntry.ISSUE_PRIO_IMG_COL)
+        val colums = arrayOf(IssueEntry.TABLE_ID, IssueEntry.ISSUE_ID_COL,
+                IssueEntry.ISSUE_SUMMARY_COL, IssueEntry.ISSUE_TAB_LANE_COL,
+                IssueEntry.ISSUE_TYP_IMG_URL_COL, IssueEntry.ISSUE_PIRO_IMG_URL_COL
+               ,IssueEntry.ISSUE_ASSIGNEE_IMG_URL_COL
+                )
         val order = "${IssueEntry.TABLE_ID} ASC"
+      //  val selection = "${IssueEntry.ISSUE_TAB_LANE_COL}"
+      //  val selectionArgs = arrayOf("")
+
         val db = dbHelper.readableDatabase
-        val cursor = db.query(IssueEntry.TABLE_NAME, colums, null, null, null, null, order)
 
-        while (cursor.moveToNext()) {
+        val cursor = db.doQuery(IssueEntry.TABLE_NAME, colums,
+                selection= selection,
+                selectionArgs = selectionArgs,
+                orderBy = order)
 
-            val issueID = cursor.getString(IssueEntry.ISSUE_ID_COL)
-            val issueSummary = cursor.getString(IssueEntry.ISSUE_SUMMARY_COL)
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
 
-            val typeBitmap = cursor.getBitmap(IssueEntry.ISSUE_TYP_IMG_COL)
-            val prioBitmap = cursor.getBitmap(IssueEntry.ISSUE_PRIO_IMG_COL)
+                val issueID = cursor.getString(IssueEntry.ISSUE_ID_COL)
+                val issueSummary = cursor.getString(IssueEntry.ISSUE_SUMMARY_COL)
+                val issueTabCol = cursor.getString(IssueEntry.ISSUE_TAB_LANE_COL)
+                val issueTypeUrl = cursor.getString(IssueEntry.ISSUE_TYP_IMG_URL_COL)
+                val prioUrl = cursor.getString(IssueEntry.ISSUE_PIRO_IMG_URL_COL)
+                val assigneeUrl = cursor?.getString(IssueEntry.ISSUE_ASSIGNEE_IMG_URL_COL)
 
-            issues.add(IssueDataList(issueID, issueSummary, typeBitmap, prioBitmap))
+                /*val typeBitmap = cursor.getBitmap(IssueEntry.ISSUE_TYP_IMG_COL)
+            val prioBitmap = cursor.getBitmap(IssueEntry.ISSUE_PRIO_IMG_COL)*/
+
+                issues.add(IssueDataList(issueID, issueSummary, issueTabCol, issueTypeUrl, prioUrl, assigneeUrl))
+            }
         }
-        cursor.close()
+        cursor?.close()
         return issues
     }
 
@@ -64,7 +83,16 @@ private fun Cursor.getBitmap(columnName: String): Bitmap {
     return BitmapFactory.decodeByteArray(typeImageByteArray, 0, typeImageByteArray.size)
 }
 
-
+private fun SQLiteDatabase.doQuery(table: String,
+                                   columns: Array<String>,
+                                   selection: String? = null,
+                                   selectionArgs: Array<String>? =null,
+                                   groupby: String? = null,
+                                   having : String? =null,
+                                   orderBy: String?= null
+                                   ): Cursor? {
+return query(table , columns, selection, selectionArgs, groupby, having, orderBy)
+}
 private inline fun <T> SQLiteDatabase.transaction(function: SQLiteDatabase.() -> T): T {
     beginTransaction()
     val result = try {
