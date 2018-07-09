@@ -8,8 +8,8 @@ data class Fields(val summary: String,
                   val priority: Priority,
                   val status: Status,
                   val assignee: Assignee )
-data class Status(val statusCategory: StatCategory)
-data class StatCategory(val name: String)
+data class Status(val id: String)
+//data class StatCategory(val name: String)
 data class Assignee(val avatarUrls: AvatarsUrls )
 data class AvatarsUrls(val `32x32`: String )
 

@@ -1,7 +1,6 @@
 package harshappsco.com.testilityjira.BoardFragments
 
 
-import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -27,11 +26,11 @@ class FragmentTab7 : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         rv_JiraCardFragment?.layoutManager = LinearLayoutManager(this.activity)
-        val tabName = context?.getSharedPreferences("harshappsco.com.testilityjira.TABNAMES", Context.MODE_PRIVATE)?.getString("TAB7", "null")
+      //  val tabName = context?.getSharedPreferences("harshappsco.com.testilityjira.TABNAMES", Context.MODE_PRIVATE)?.getString("TAB7", "null")
 
-        val tableCol = IssueEntry.ISSUE_TAB_LANE_COL + " = ?"
-        val whereSel = arrayOf("$tabName")
-
+        val tableCol = IssueEntry.ISSUE_TAB_LANE_COL + " = ?" + "OR " +
+                IssueEntry.ISSUE_TAB_LANE_COL + " = ?"
+        val whereSel = arrayOf("5","6")
         val isuue = IssueDbTable(activity?.applicationContext!!).readData(selection = tableCol, selectionArgs = whereSel)
         rv_JiraCardFragment.adapter = JiraCardAdapter2(isuue)
     }

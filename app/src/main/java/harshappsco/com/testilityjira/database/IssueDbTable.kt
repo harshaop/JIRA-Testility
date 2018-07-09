@@ -14,12 +14,12 @@ class IssueDbTable(context: Context) {
     private val TAG = IssueDbTable::class.java.simpleName
 
     private val dbHelper = IssueEntryDb(context)
-    fun storeData(issue: Issue, fields: Fields, statusTab: StatCategory, issueType: IssueType, prio: Priority, assigneeUrl: AvatarsUrls?): Long {
+    fun storeData(issue: Issue, fields: Fields, statusTab: Status, issueType: IssueType, prio: Priority, assigneeUrl: AvatarsUrls?): Long {
         val db = dbHelper.writableDatabase
         val values = ContentValues()
         values.put(IssueEntry.ISSUE_ID_COL, issue.key)
         values.put(IssueEntry.ISSUE_SUMMARY_COL, fields.summary)
-        values.put(IssueEntry.ISSUE_TAB_LANE_COL, statusTab.name)
+        values.put(IssueEntry.ISSUE_TAB_LANE_COL, statusTab.id)
         values.put(IssueEntry.ISSUE_TYP_IMG_URL_COL, issueType.iconUrl )
         values.put(IssueEntry.ISSUE_PIRO_IMG_URL_COL, prio.iconUrl )
         values.put(IssueEntry.ISSUE_ASSIGNEE_IMG_URL_COL, assigneeUrl?.`32x32` )
