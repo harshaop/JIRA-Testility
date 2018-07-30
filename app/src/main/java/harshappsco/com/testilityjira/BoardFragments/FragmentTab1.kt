@@ -15,8 +15,6 @@ import kotlinx.android.synthetic.main.fragment_tab1.*
 
 
 class FragmentTab1 : Fragment() {
-    var tab1Name: String? = "To Do"
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {

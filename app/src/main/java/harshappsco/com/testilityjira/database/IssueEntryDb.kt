@@ -10,6 +10,7 @@ class IssueEntryDb(context: Context):SQLiteOpenHelper(context, DATABASE_NAME,nul
             "${IssueEntry.TABLE_ID} INTERGER PRIMARY KEY," +
             "${IssueEntry.ISSUE_ID_COL} TEXT UNIQUE," +
             "${IssueEntry.ISSUE_SUMMARY_COL} TEXT," +
+            "${IssueEntry.ISSUE_DESCRIPTION_COL} TEXT," +
             "${IssueEntry.ISSUE_TAB_LANE_COL} TEXT," +
             "${IssueEntry.ISSUE_TYP_IMG_URL_COL} TEXT," +
             "${IssueEntry.ISSUE_PIRO_IMG_URL_COL} TEXT," +
@@ -28,6 +29,5 @@ class IssueEntryDb(context: Context):SQLiteOpenHelper(context, DATABASE_NAME,nul
         db.execSQL(SQL_DELETE_ENTRY)
         onCreate(db)
     }
-
 
 }

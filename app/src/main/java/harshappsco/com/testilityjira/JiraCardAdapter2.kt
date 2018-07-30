@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.jira_card.view.*
 
-class JiraCardAdapter2(val issuesFeed :List<IssueDataList>): RecyclerView.Adapter<JiraCardViewHolder>() {
+class JiraCardAdapter2(private val issuesFeed :List<IssueDataList>): RecyclerView.Adapter<JiraCardViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): JiraCardViewHolder{
         val view = LayoutInflater.from(parent.context).inflate(R.layout.jira_card, parent,false)
@@ -18,8 +18,10 @@ class JiraCardAdapter2(val issuesFeed :List<IssueDataList>): RecyclerView.Adapte
     }
 
     override fun onBindViewHolder(holder: JiraCardViewHolder, position: Int) {
-        val issue = issuesFeed.get(position)
+        val issue = issuesFeed[position]
         holder.card.textView3.text = issue.issueID
+        holder.issuekey = issue.issueID
+
         holder.card.textView4.text = issue.summary
 
         val imageViewType = holder.card.imageView

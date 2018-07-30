@@ -1,5 +1,6 @@
 package harshappsco.com.testilityjira
 
+import android.content.Intent
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -21,6 +22,8 @@ class JiraCardAdapter(val issuesFeed :IssuesFeed): RecyclerView.Adapter<JiraCard
     override fun onBindViewHolder(holder: JiraCardViewHolder, position: Int) {
         val issue = issuesFeed.issues.get(position)
         holder.card.textView3.text = issue.key
+        holder.issuekey = issue.key
+
         holder.card.textView4.text = issue.fields.summary
 
         val imageViewType = holder.card.imageView
@@ -51,5 +54,17 @@ class JiraCardAdapter(val issuesFeed :IssuesFeed): RecyclerView.Adapter<JiraCard
                 .into(imageViewAssignee)
     }
 }
-class JiraCardViewHolder(val card: View): RecyclerView.ViewHolder(card)
+
+class JiraCardViewHolder(val card: View, var issuekey: String = "Issue"): RecyclerView.ViewHolder(card){
+companion object {
+    val ISSUE_TITLE_KEY = "Issue_Key"
+}
+    init {
+        card.setOnClickListener {
+            val intent = Intent(card.context, IssueDetails::class.java)
+            intent.putExtra(ISSUE_TITLE_KEY, issuekey)
+            card.context.startActivity(intent)
+        }
+    }
+}
 
